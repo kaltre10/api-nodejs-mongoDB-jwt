@@ -1,9 +1,10 @@
 const Cursos = require('../models/cursos_model');
 
-async function crearCurso(body){
+async function crearCurso(req){
     const curso = new Cursos({
-        titulo: body.titulo,
-        descripcion: body.descripcion,
+        titulo: req.body.titulo,
+        autor: req.usuario,
+        descripcion: req.body.descripcion,
     })
     return await curso.save();
 }
@@ -20,7 +21,9 @@ async function deleteCursos(id){
 }
 
 async function getCursos(){
-    const cursos = await Cursos.find({estado:true});
+    const cursos = await Cursos
+                            .find({'estado':true})
+                            // .populate('autor', 'nombre -_id')
     return cursos;
 }
 

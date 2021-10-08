@@ -6,10 +6,12 @@ const {
     actualizarUsuario,
     desactivarUsuario,
     getUsuarios,
-    existeEmail
-} = require('../helpers/usuarios');
+    existeEmail,
+} = require('../middlewares/usuarios');
 
-ruta.get('/', (req, res) => {
+const verificarAutoritation = require('../middlewares/auth');
+
+ruta.get('/', verificarAutoritation, (req, res) => {
     let usuarios = getUsuarios();
     usuarios    
         .then(user => res.json(user))

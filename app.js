@@ -3,10 +3,12 @@ const cursos = require('./routes/cursos');
 const express = require('express');
 const mongoose = require('mongoose');
 const auth = require('./routes/auth');
+const config = require('config'); 
+const connecDB = config.get('configDB.HOST');
 
 async function mainMongo() {
     try {
-        await mongoose.connect('mongodb://localhost:27017/prueba');
+        await mongoose.connect(connecDB);
     } catch (error) {
         console.log('Error al conectar con mongo: ', error);
     }

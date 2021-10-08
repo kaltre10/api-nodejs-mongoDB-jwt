@@ -6,16 +6,17 @@ const {
     actualizarCurso,
     deleteCursos,
     getCursos,
-} = require('../helpers/cursos');
+} = require('../middlewares/cursos');
 
-ruta.post('/', (req, res) => {
-    const body = req.body;
-    const { error } = validate.validate({titulo: body.titulo, descripcion: body.descripcion});
-    const existe = existeEmail(body);
+const verificarAutoritation = require('../middlewares/auth');
 
+ruta.post('/', verificarAutoritation, (req, res) => {
+    const { error } = validate.validate({
+                                        titulo: req.body.titulo,
+                                        descripcion: req.body.descripcion
+                                        });
     if(!error){
-        existeEmail(body);
-        const curso = crearCurso(body);
+        const curso = crearCurso(req);
         curso  
             .then(curso => res.json(curso))
             .catch(err => res.status(400).json(err))
@@ -45,7 +46,7 @@ ruta.delete('/:id', (req, res) => {
         .catch(err => res.status(400).json(err))
 })
 
-ruta.get('/', (req, res) => {
+ruta.get('/', verificarAutoritation, (req, res) => {
     const cursos = getCursos();
     cursos  
         .then(curso => res.json(curso))

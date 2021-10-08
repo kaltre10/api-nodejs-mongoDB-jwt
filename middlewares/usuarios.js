@@ -52,5 +52,5 @@ module.exports = {
     actualizarUsuario,
     desactivarUsuario,
     getUsuarios,
-    existeEmail
+    existeEmail,
 }
